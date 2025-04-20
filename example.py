@@ -6,7 +6,7 @@ from contours import (
     draw_contours,
 )
 from preprocess import preprocess_multi_step, resize
-from cropPhoto import crop_photo_to_display
+from cropPhoto import crop_photo_to_display, crop_edges
 
 # Set constants
 
@@ -29,9 +29,13 @@ show_image(cropped_RGB, title="Cropped Photo")
 
 resized = resize(cropped)
 
-resized_RGB = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)  # contours will be drawn on this
+edges_cropped = crop_edges(resized)
 
-preprocessed = preprocess_multi_step(resized, show_intermediates=True)
+edges_cropped_RGB = cv2.cvtColor(
+    edges_cropped, cv2.COLOR_BGR2RGB
+)  # contours will be drawn on this
+
+preprocessed = preprocess_multi_step(edges_cropped, show_intermediates=True)
 
 contours, _ = cv2.findContours(preprocessed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -43,6 +47,8 @@ print(f"Filtered contours (area > {MIN_CONTOUR_AREA}): {len(filtered_contours)}"
 
 print_contours_sorted_by_area(filtered_contours)
 
-image_with_contours = draw_contours(base_image=resized_RGB, contours=filtered_contours)
+image_with_contours = draw_contours(
+    base_image=edges_cropped_RGB, contours=filtered_contours
+)
 
 show_image(image_with_contours, title="Image with Contours")

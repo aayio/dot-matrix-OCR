@@ -36,3 +36,22 @@ def crop_photo_to_display(image: MatLike) -> MatLike:
     cropped = image[y : y + h, x : x + w]
 
     return cropped
+
+
+def crop_edges(image: MatLike) -> MatLike:
+    CROP_H_FACTOR = 0.90
+    CROP_W_FACTOR = 0.95
+
+    h, w = image.shape[:2]
+
+    new_h = int(h * CROP_H_FACTOR)
+    new_w = int(w * CROP_W_FACTOR)
+
+    # Calculate the starting points for the crop (centered)
+    start_y = (h - new_h) // 2
+    start_x = (w - new_w) // 2
+
+    # Perform the crop
+    cropped_image = image[start_y : start_y + new_h, start_x : start_x + new_w]
+
+    return cropped_image

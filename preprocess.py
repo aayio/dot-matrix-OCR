@@ -36,7 +36,7 @@ def preprocess_multi_step(
 
     # Set constants
     GRAY_THRESH = 80
-    DILATION_KERNEL = np.ones((7, 3), np.uint8)  # (vert, horiz)
+    DILATION_KERNEL = np.ones((7, 1), np.uint8)  # (vert, horiz)
     # EROSION_KERNEL = np.ones((1, 5), np.uint8)  # (vert, horiz)
 
     gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
